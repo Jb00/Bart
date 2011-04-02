@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     genctrl.cpp \
     Patient.cpp \
     Bed.cpp \
-    facilitywindow.cpp
+    facilitywindow.cpp \
+    waitinglistwindow.cpp \
+    facilitywinctrl.cpp \
+    waitingctrl.cpp
 
 HEADERS  += loginwindow.h \
     User.h \
@@ -48,11 +51,15 @@ HEADERS  += loginwindow.h \
     Patient.h \
     CreateNewUser.h \
     Bed.h \
-    facilitywindow.h
+    facilitywindow.h \
+    waitinglistwindow.h \
+    facilitywinctrl.h \
+    waitingctrl.h
 
 FORMS    += loginwindow.ui \
     mapwindow.ui \
     invalidwindow.ui \
     adduserwindow.ui \
     addfacility.ui \
-    facilitywindow.ui
+    facilitywindow.ui \
+    waitinglistwindow.ui

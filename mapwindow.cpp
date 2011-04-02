@@ -4,9 +4,6 @@
 MapWindow::MapWindow(const QString &filePath): ui(new Ui::MapWindow)
 {
     renderer = new QSvgRenderer(filePath);
-    facilityPnts = new QLinkedList<QPoint>();
-
-    mapCtrl = new MapWinCtrl();
 
     ui->setupUi(this);
     this->setMouseTracking(true);
@@ -20,38 +17,153 @@ MapWindow::MapWindow(const QString &filePath): ui(new Ui::MapWindow)
     connect(ui->actionFacilityView,SIGNAL(triggered()), this, SLOT(facilityView()));
 
     colorList = new QList<QColor>();
-
-    colorList->append(QColor("#F2FCC2"));
-    colorList->append(QColor("#FCCDB6"));
-    colorList->append(QColor("#b3f3fc"));
-    colorList->append(QColor("#fcc5ea"));
-    colorList->append(QColor("#b8b3fc"));
-    colorList->append(QColor("#b6fcb3"));
-    colorList->append(QColor("#f2f1f0"));
-
+    facSizeList = new QList<int>();
 }
 
 MapWindow::~MapWindow(){}
 
-void MapWindow::createUser_clicked(){mapCtrl->goToAddUser();}
+void MapWindow::createUser_clicked(){MapWinCtrl::getInstance()->goToAddUser();}
 
 void MapWindow::createFac_clicked(){
     QPoint aPnt;
-    mapCtrl->goToAddFac(aPnt, NULL);
+    QColor aColor;
+    MapWinCtrl::getInstance()->goToAddFac(aPnt, NULL, aColor);
+}
+/*
+void MapWindow::determineFacColor(){
+
+    //QColor aColor;
+
+    if(!(MapWinCtrl::getInstance()->listOfFacility.isEmpty())){
+
+        for(int i = 0; i < MapWinCtrl::getInstance()->listOfFacility.size(); i++){
+
+            if((MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalCCC())
+                && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalLTC() <= 0){
+                colorList->append(Qt::red);
+                colorList->append(Qt::darkGreen);
+            }
+            else if((MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() < MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalCCC())
+                && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalLTC() <= 0){
+                colorList->append(Qt::darkGreen);
+                colorList->append(Qt::red);
+            }
+            else if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() == MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalCCC())
+                colorList->append(Qt::blue);
+            else if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalLTC() > 0)
+                colorList->append(Qt::black);
+        }
+
+         colorList->clear();
+    }
+
+
 }
 
+void MapWindow::determineFacSize(){
+
+    //int size;
+
+    if(!(MapWinCtrl::getInstance()->listOfFacility.isEmpty())){
+
+        for(int i = 0; i < MapWinCtrl::getInstance()->listOfFacility.size(); i++){
+
+            if((MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > 0
+               && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() <= 25)
+                && (MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() ==
+                    MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalCCC())){
+
+                facSizeList->append(3);
+
+            }
+
+        }
+
+        facSizeList->clear();
+    }
+
+
+}
+*/
 void MapWindow::paintEvent(QPaintEvent *event)
  {
      Q_UNUSED(event)
      QPainter painter(this);
      renderer->render(&painter);
+/*
+     determineFacColor();
+     determineFacSize();
 
-     painter.setBrush(Qt::red);
-     painter.setPen(Qt::red);
+     for(int i = 0; i < colorList->size(); i++){
 
-     QLinkedList<QPoint>::iterator i;
-     for (i = facilityPnts->begin(); i != facilityPnts->end(); ++i)
-        painter.drawEllipse(*i, 5, 5);
+         QPoint aPnt;
+         aPnt.setX(MapWinCtrl::getInstance()->listOfFacility.at(i)->getX());
+         aPnt.setY(MapWinCtrl::getInstance()->listOfFacility.at(i)->getY());
+
+         painter.setBrush(colorList->at(i));
+         painter.setPen(colorList->at(i));
+
+         for(int j = 0; j < facSizeList->size(); i++){
+             painter.drawEllipse(aPnt, facSizeList->at(j), facSizeList->at(j));
+         }
+     }
+     */
+     if(!(MapWinCtrl::getInstance()->listOfFacility.isEmpty())){
+
+         for(int i = 0; i < MapWinCtrl::getInstance()->listOfFacility.size(); i++){
+
+             //determineFacColor();
+             //determineFacSize();
+
+             if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > 0 && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() <= 25){
+
+                 QPoint aPnt;
+                 aPnt.setX(MapWinCtrl::getInstance()->listOfFacility.at(i)->getX());
+                 aPnt.setY(MapWinCtrl::getInstance()->listOfFacility.at(i)->getY());
+
+                 painter.setBrush(Qt::red);
+                 painter.setPen(Qt::red);
+                 painter.drawEllipse(aPnt, 3, 3);
+
+             }
+             else if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > 25 && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() <= 50){
+
+                 QPoint aPnt;
+                 aPnt.setX(MapWinCtrl::getInstance()->listOfFacility.at(i)->getX());
+                 aPnt.setY(MapWinCtrl::getInstance()->listOfFacility.at(i)->getY());
+
+                 painter.setBrush(Qt::red);
+                 painter.setPen(Qt::red);
+                 painter.drawEllipse(aPnt, 5, 5);
+
+             }
+             else if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > 50 && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() <= 75){
+
+                 QPoint aPnt;
+                 aPnt.setX(MapWinCtrl::getInstance()->listOfFacility.at(i)->getX());
+                 aPnt.setY(MapWinCtrl::getInstance()->listOfFacility.at(i)->getY());
+
+                 painter.setBrush(Qt::red);
+                 painter.setPen(Qt::red);
+                 painter.drawEllipse(aPnt, 7, 7);
+
+             }
+             else if(MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() > 75 && MapWinCtrl::getInstance()->listOfFacility.at(i)->getTotalAC() <= 100){
+
+                 QPoint aPnt;
+                 aPnt.setX(MapWinCtrl::getInstance()->listOfFacility.at(i)->getX());
+                 aPnt.setY(MapWinCtrl::getInstance()->listOfFacility.at(i)->getY());
+
+                 painter.setBrush(Qt::red);
+                 painter.setPen(Qt::red);
+                 painter.drawEllipse(aPnt, 9, 9);
+
+             }
+
+
+         }
+     }
+
 
  }
 
@@ -69,6 +181,7 @@ void MapWindow::keyPressEvent(QKeyEvent *event){
 
 void MapWindow::mousePressEvent(QMouseEvent *event){
 
+    //qDebug() << event->pos();
     QPixmap pm = QPixmap::grabWidget(this);
     QImage test;
 
@@ -76,69 +189,15 @@ void MapWindow::mousePressEvent(QMouseEvent *event){
 
     QColor currentColor = test.pixel(event->x(), event->y());
 
-    if(currentColor == QColor("#f2f1f0")){
+    if(currentColor == QColor("#f2f1f0"))
+        MapWinCtrl::getInstance()->invalid();
+    else
+        MapWinCtrl::getInstance()->goToAddFac(event->pos(), area, currentColor);
 
-        qApp->quit();
-    }
-    else{
-        determineArea(currentColor);
-        facilityPnts->append(event->pos());
-        mapCtrl->goToAddFac(event->pos(), area);
-        if(!AddFacCtrl::getInstance()->isOK()){
-            facilityPnts->pop_back();
-            AddFacCtrl::getInstance()->setOK(true);
-        }
-    }
 
-/*
-    QLinkedList<QPoint>::iterator i;
-    for (i = facilityPnts->begin(); i != facilityPnts->end(); ++i)
-        std::cout << *i << endl;
-        //std::cout << facilityPnts->front().x() << ", " << facilityPnts->front().y() << "\n";
-    */
     update();
 }
 
-void MapWindow::facilityView(){mapCtrl->gotoFacility();}
+void MapWindow::facilityView(){MapWinCtrl::getInstance()->gotoFacility();}
 
-void MapWindow::determineArea(QColor aColor){
 
-    QList<QColor>::iterator i;
-    for (i = colorList->begin(); i != colorList->end(); ++i){
-
-        if(aColor == *i){
-
-            if(aColor.toRgb().name().toStdString() == "#f2fcc2"){
-                area = 0;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-            else if(aColor.toRgb().name().toStdString() == "#fccdb6"){
-                area = 1;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-            else if(aColor.toRgb().name().toStdString() == "#b3f3fc"){
-                area = 2;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-            else if(aColor.toRgb().name().toStdString() == "#fcc5ea"){
-                area = 3;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-            else if(aColor.toRgb().name().toStdString() == "#b8b3fc"){
-                area = 4;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-            else{
-                area = 5;
-                //qDebug() << aColor.toRgb().name() << ", area: " << area;
-                break;
-            }
-        }
-    }
-
-}

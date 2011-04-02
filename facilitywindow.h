@@ -7,7 +7,7 @@
 #include "genui.h"
 #include "facilitywinctrl.h"
 #include "Facility.h"
-
+#include "addfacctrl.h"
 namespace Ui {
     class FacilityWindow;
 }
@@ -27,7 +27,7 @@ public:
 private:
     Ui::FacilityWindow *ui;
 
-    FacilityWinCtrl* facCtrl;
+    //FacilityWinCtrl* facCtrl;
     Facility* facility;
 
 

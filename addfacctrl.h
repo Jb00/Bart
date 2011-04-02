@@ -9,17 +9,22 @@
 #include <QMessageBox>
 #include <QSqlTableModel>
 #include <QPainter>
+#include <QPoint>
 
 #include "addfacility.h"
 #include "Facility.h"
 #include "genctrl.h"
+#include "invalidwindow.h"
+//#include "mapwinctrl.h"
 
 
 class AddFacCtrl: public genCTRL
 {
-private :
+private:
         AddFacCtrl();
         static AddFacCtrl* anInstance;
+
+        InvalidWindow *invalidWin;
 
         int id;
         QString facilityName;
@@ -29,31 +34,53 @@ private :
         int CCC;
         int LTC;
         int area;
-        QList<Facility *> *facilityList;
-        bool ok;
+
+        QColor facIconColor;
+        int facXSize;
+        int facYSize;
+        //bool ok;
+
+       // QList<FacIconInfo*> *facIconList;
 
 public:
 
-    static AddFacCtrl* getInstance();
+        QLinkedList<QPoint> *facilityPnts;
+        QList<Facility *> *facilityList;
 
-    void addFacilityCoord(int, int);
+        static AddFacCtrl* getInstance();
 
-    void invalid();
+        void addFacilityCoord(int, int);
 
-    void addToDb();
-    void setId(int);
-    void setX(int);
-    void setY(int);
-    void setAC(int);
-    void setCCC(int);
-    void setLTC(int);
-    void setName(QString);
-    void setArea(int);
-    void setList(QList<Facility *>*);
-    void setOK(bool);
+        void invalid();
 
-    int getArea();
-    bool isOK();
+        void addToDb();
+        void setId(int);
+        void setX(int);
+        void setY(int);
+        void setAC(int);
+        void setCCC(int);
+        void setLTC(int);
+        void setName(QString);
+        void setArea(int);
+        void setList(QList<Facility *>*);
+        void setFacIconColor(QColor);
+        void setFacXSize(int);
+        void setFacYSize(int);
+        void setOK(bool);
+
+        int getArea();
+        int getAC();
+        int getCCC();
+        int getLTC();
+
+        //QList<FacIconInfo*>* getIconList();
+
+        //void setIconList(FacIconInfo *);
+
+        QColor getFacIconColor();
+        int getFacXSize();
+        int getFacYSize();
+        //bool isOK();
 };
 
 #endif // ADDFACCTRL_H

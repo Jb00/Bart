@@ -18,9 +18,17 @@ AddFacility::AddFacility(QWidget *parent) :
     ui->complexNumBox->setDisabled(true);
     ui->longNumBox->setDisabled(true);
 
+    colorList = new QList<QColor>();
+
+    colorList->append(QColor("#F2FCC2"));
+    colorList->append(QColor("#FCCDB6"));
+    colorList->append(QColor("#b3f3fc"));
+    colorList->append(QColor("#fcc5ea"));
+    colorList->append(QColor("#b8b3fc"));
+    colorList->append(QColor("#b6fcb3"));
+    colorList->append(QColor("#f2f1f0"));
 
     setScheme();
-
 }
 
 AddFacility::~AddFacility(){delete ui;}
@@ -34,39 +42,33 @@ void AddFacility::okBtn_clicked(){
     AC = ui->acuteNumBox->text().toInt();
     CCC=ui->complexNumBox->text().toInt();
     LTC=ui->longNumBox->text().toInt();
-    qDebug() <<CCC;
+    //qDebug() << "AC: " << AC;
+
+    if((name == "") || (id == 0) || (xCoord == 0) || (yCoord == 0) || ((AC == 0) && (CCC == 0) && (LTC == 0))){
+
+       AddFacCtrl::getInstance()->invalid();
+    }
+    else{
+
+        //Set value into the controller from the UI
+        AddFacCtrl::getInstance()->setId(id);
+        AddFacCtrl::getInstance()->setName(name);
+        AddFacCtrl::getInstance()->setX(xCoord);
+        AddFacCtrl::getInstance()->setY(yCoord);
+        AddFacCtrl::getInstance()->setAC(AC);
+        AddFacCtrl::getInstance()->setCCC(CCC);
+        AddFacCtrl::getInstance()->setLTC(LTC);
+
+        //determineIcon();
+        qDebug() << "AC before adToDb: " << AddFacCtrl::getInstance()->getAC();
+        AddFacCtrl::getInstance()->addToDb();
+        this->close();
+    }
 
 
-    //Set value into the controller from the UI
-    AddFacCtrl::getInstance()->setId(id);
-    AddFacCtrl::getInstance()->setName(name);
-    AddFacCtrl::getInstance()->setX(xCoord);
-    AddFacCtrl::getInstance()->setY(yCoord);
- //   AddFacCtrl::getInstance()->setArea(area);
-    AddFacCtrl::getInstance()->setAC(AC);
-    AddFacCtrl::getInstance()->setCCC(CCC);
-    AddFacCtrl::getInstance()->setAC(LTC);
-
-    AddFacCtrl::getInstance()->addToDb();
-    AddFacCtrl::getInstance()->setOK(true);
-    this->close();
-    /*
-    OLD BART
-    if(ui->hospitalRadio->isChecked())
-        addCtrl->addFacilityToMap(name, id, xCoord, yCoord, ui->acuteNumBox->text().toInt(), ui->complexNumBox->text().toInt(), ui->longNumBox->text().toInt(), 'h');
-    else if(ui->nursingRadio->isChecked())
-        addCtrl->addFacilityToMap(name, id, xCoord, yCoord, ui->acuteNumBox->text().toInt(), ui->complexNumBox->text().toInt(), ui->longNumBox->text().toInt(), 'n');
-    else
-        addCtrl->invalid();
-
-        */
 }
 
-void AddFacility::cancelBtn_clicked(){
-
-    AddFacCtrl::getInstance()->setOK(false);
-    this->close();
-}
+void AddFacility::cancelBtn_clicked(){this->close();}
 
 void AddFacility::keyPressEvent(QKeyEvent *event){
 
@@ -118,6 +120,122 @@ void AddFacility::addCoord(int x, int y){
     ui->yLine->setText(yStr);
     ui->xLine->setDisabled(true);
     ui->yLine->setDisabled(true);
+}
+
+/*
+void AddFacility::determineIcon(){
+
+    if(AC > 0 && AC <= 25){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::red);
+        AddFacCtrl::getInstance()->setFacXSize(3);
+        AddFacCtrl::getInstance()->setFacYSize(3);
+    }
+    else if(AC > 25 && AC <= 50){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::red);
+        AddFacCtrl::getInstance()->setFacXSize(5);
+        AddFacCtrl::getInstance()->setFacYSize(5);
+    }
+    else if(AC > 50 && AC <= 75){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::red);
+        AddFacCtrl::getInstance()->setFacXSize(7);
+        AddFacCtrl::getInstance()->setFacYSize(7);
+    }
+    else if(AC > 75 && AC <= 100){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::red);
+        AddFacCtrl::getInstance()->setFacXSize(9);
+        AddFacCtrl::getInstance()->setFacYSize(9);
+    }
+    else if(LTC > 0 && LTC <= 25){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::black);
+        AddFacCtrl::getInstance()->setFacXSize(3);
+        AddFacCtrl::getInstance()->setFacYSize(3);
+    }
+    else if(LTC > 25 && LTC <= 50){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::black);
+        AddFacCtrl::getInstance()->setFacXSize(5);
+        AddFacCtrl::getInstance()->setFacYSize(5);
+    }
+    else if(LTC > 50 && LTC <= 75){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::black);
+        AddFacCtrl::getInstance()->setFacXSize(7);
+        AddFacCtrl::getInstance()->setFacYSize(7);
+    }
+    else if(LTC > 75 && LTC <= 100){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::black);
+        AddFacCtrl::getInstance()->setFacXSize(9);
+        AddFacCtrl::getInstance()->setFacYSize(9);
+    }
+    else if(CCC > 0 && CCC <= 25){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::darkGreen);
+        AddFacCtrl::getInstance()->setFacXSize(3);
+        AddFacCtrl::getInstance()->setFacYSize(3);
+    }
+    else if(CCC > 25 && CCC <= 50){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::darkGreen);
+        AddFacCtrl::getInstance()->setFacXSize(5);
+        AddFacCtrl::getInstance()->setFacYSize(5);
+    }
+    else if(CCC > 50 && CCC <= 75){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::darkGreen);
+        AddFacCtrl::getInstance()->setFacXSize(7);
+        AddFacCtrl::getInstance()->setFacYSize(7);
+    }
+    else if(CCC > 75 && CCC <= 100){
+
+        AddFacCtrl::getInstance()->setFacIconColor(Qt::darkGreen);
+        AddFacCtrl::getInstance()->setFacXSize(9);
+        AddFacCtrl::getInstance()->setFacYSize(9);
+    }
+
+    AddFacCtrl::getInstance()->addToDb();
+}
+*/
+
+void AddFacility::determineArea(QColor aColor){
+
+    QList<QColor>::iterator i;
+    for (i = colorList->begin(); i != colorList->end(); ++i){
+
+        if(aColor == *i){
+
+            if(aColor.toRgb().name().toStdString() == "#f2fcc2"){
+                area = 0;
+                break;
+            }
+            else if(aColor.toRgb().name().toStdString() == "#fccdb6"){
+                area = 1;
+                break;
+            }
+            else if(aColor.toRgb().name().toStdString() == "#b3f3fc"){
+                area = 2;
+                break;
+            }
+            else if(aColor.toRgb().name().toStdString() == "#fcc5ea"){
+                area = 3;
+                break;
+            }
+            else if(aColor.toRgb().name().toStdString() == "#b8b3fc"){
+                area = 4;
+                break;
+            }
+            else{
+                area = 5;
+                break;
+            }
+        }
+    }
+
 }
 
 

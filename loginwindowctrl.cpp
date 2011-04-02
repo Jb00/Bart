@@ -45,6 +45,8 @@ void LoginWindowCtrl::goToMap(){
     fileName = QLatin1String("//home/bartosz/Documents/Previous_builds/map/MapWindow/map.svg");
 
     mapWin = new MapWindow(fileName);
+    //mapWin->setFixedHeight(1000);
+    //mapWin->setFixedWidth(1000);
     mapWin->show();
     genCTRL::center(*mapWin);
 }

@@ -3,7 +3,7 @@
 
 Patient::Patient(QString aHealthCardNum,QString aFName,QString aLName,QDate aDateAdmitted,QDate aDateWL,int aReqCare,int anOccCare)
 {
-    aHealthCardNum = healthCardNum;
+    healthCardNum = aHealthCardNum;
     fName = aFName;
     lName = aLName;
     dateAdmitted = aDateAdmitted;

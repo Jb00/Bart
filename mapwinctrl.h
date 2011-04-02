@@ -14,40 +14,50 @@
 #include "Patient.h"
 #include "Facility.h"
 #include "facilitywindow.h"
+#include "invalidwindow.h"
 
 
 class MapWinCtrl: public genCTRL
 {
 public:
 
-    MapWinCtrl();
-    ~MapWinCtrl();
 
     void goToAddUser();
-    void goToAddFac(const QPoint &, const int &);
+    void goToAddFac(const QPoint &, const int &, const QColor &);
     void setupPatients();
-    void setupFacility();
+    //void setupFacility();
     void gotoFacility();
+    void setList(QList<Facility *>);
 
-    void setCanceled(bool);
-    //void goToLogin();
+    void invalid();
+    QList<Facility*> listOfFacility;
+    QList<Patient*> listOfPatient;
+
+
+    static MapWinCtrl* getInstance();
+
+    //void determineArea(QColor);
 
 private:
+
+    MapWinCtrl();
+    static MapWinCtrl* anInstance;
+
 
     AddUserWindow* addUserWin;
     AddFacility* addFac;
     Map* map;
     FacilityWindow* aFacilityView;
+    InvalidWindow* invalidWin;
 
-    bool canceled;
-    int windowCounter;
+    //bool canceled;
     //FAKE DATA TEST
+    QList<QColor> *colorList;
 
 
-    QList<Patient*> listOfPatient;
-    QList<Facility*>listOfFacility;
     QList<User*> listOfUser;
 
+    int area;
 
     //Test Patient for Add patient to LTC
     Patient * aPatient11;

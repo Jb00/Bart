@@ -1,14 +1,15 @@
 #include "Facility.h"
 
+//Facility::Facility(int anId,QString aName, int aX,int aY,int anACbed,int aCCCbed,int aLTCBed, QColor iconColor, int ellipseXSize, int ellipseYSize)
 Facility::Facility(int anId,QString aName, int aX,int aY,int anACbed,int aCCCbed,int aLTCBed)
 {
     id = anId;
     name = aName;
     x=aX;
     y=aY;
-    NumberBedTotalAcute = anACbed = NumberBedAvailableAcute;
-    NumberBedTotalComplex =aCCCbed = NumberBedAvailableComplex;
-    NumberBedTotalLTC = aLTCBed = NumberBedAvailableLTC;
+    NumberBedTotalAcute = NumberBedAvailableAcute = anACbed;
+    NumberBedTotalComplex = NumberBedAvailableComplex = aCCCbed;
+    NumberBedTotalLTC  = NumberBedAvailableLTC = aLTCBed;
 
     if(NumberBedTotalAcute > 0 )
         type ="H";
@@ -30,15 +31,9 @@ void Facility::addBedAcute()
     listBedAcute.append(aBed); //Add at the end of the list
 }
 
-int Facility::getSizeAcute()
-{
-    return listBedAcute.size();
-}
+int Facility::getSizeAcute(){return listBedAcute.size();}
 
-bool Facility::isEmptyAcute()
-{
-    return listBedAcute.isEmpty();
-}
+bool Facility::isEmptyAcute(){return listBedAcute.isEmpty();}
 
 //Remove a bed Acute
 
@@ -66,10 +61,7 @@ bool Facility::removeBedAcute(int number)
     return true;                       //Success erased 'number' Bed;
 }
 
-int Facility::getSizePatientAcute()
-{
-    return listAcute.size();
-}
+int Facility::getSizePatientAcute(){return listAcute.size();}
 
 //Add Bed Complex
 void Facility::addBedComplex()
@@ -78,15 +70,9 @@ void Facility::addBedComplex()
     listBedComplex.append(aBed);    //Add at the end of the list
 }
 
-int Facility::getSizeComplex()
-{
-    return listBedComplex.size();
-}
+int Facility::getSizeComplex(){return listBedComplex.size();}
 
-bool Facility::isEmptyComplex()
-{
-    return listBedComplex.isEmpty();
-}
+bool Facility::isEmptyComplex(){return listBedComplex.isEmpty();}
 
 //Remove a bed Complex
 bool Facility::removeBedComplex(int number)
@@ -113,16 +99,8 @@ bool Facility::removeBedComplex(int number)
     return true;                       //Success erased 'number' Bed;
 }
 
-void Facility::addPatientAcute(Patient * aPatient)
-{
-
-    listAcute.append(aPatient);
-}
-
-void Facility::addPatientComplex(Patient * aPatient)
-{
-    listComplex.append(aPatient);
-}
+void Facility::addPatientAcute(Patient * aPatient){listAcute.append(aPatient);}
+void Facility::addPatientComplex(Patient * aPatient){listComplex.append(aPatient);}
 
 bool Facility::NUsedBedComplex() //If we want to return bed #, simply return bed # or -1 . -1 fail and bed# = win.
 {
@@ -160,12 +138,7 @@ bool Facility::NUsedBedAcute() //If we want to return bed #, simply return bed #
     return false; //No empty bed
 }
 
-int Facility::getSizePatientComplex()
-{
-    return listComplex.size();
-}
-
-
+int Facility::getSizePatientComplex(){return listComplex.size();}
 
 //Add Bed LTC
 void Facility::addBedLTC()
@@ -175,15 +148,9 @@ void Facility::addBedLTC()
     std::cout<< listBedLTC.first()->getUse();                   //TO REMOVE TEST
 }
 
-int Facility::getSizeLTC()
-{
-    return listBedLTC.size();
-}
+int Facility::getSizeLTC(){return listBedLTC.size();}
 
-bool Facility::isEmptyLTC()
-{
-    return listBedLTC.isEmpty();
-}
+bool Facility::isEmptyLTC(){return listBedLTC.isEmpty();}
 
 //Remove a bed LTC
 bool Facility::removeBedLTC(int number)
@@ -205,18 +172,16 @@ bool Facility::removeBedLTC(int number)
     return true;                       //Success erased 'number' Bed;
 }
 
-void Facility::addPatientLTC(Patient* aPatient)
-{
-    listLTC.append(aPatient);
-}
+void Facility::addPatientLTC(Patient* aPatient){listLTC.append(aPatient);}
 
 bool Facility::removePatientWL(Patient* aPatient)
 {
     int position= listWL.indexOf(aPatient);// Return -1 if not in the list
-    std::cout << "THE POSITION"<<position;
+    qDebug() << "THE POSITION: " << position;
     if( position != -1) //If it is in the list
     {
         listWL.removeAt(position);
+        qDebug() << "Succsess removed from WL!";
         return true; //Success remove
     }
 
@@ -241,50 +206,16 @@ bool Facility::NUsedBedLTC()
     return false; //No empty bed
 }
 
-int Facility::getSizePatientLTC()
-{
-    return listLTC.size();
-}
+int Facility::getSizePatientLTC(){return listLTC.size();}
+int Facility::getSizeWL(){return listWL.size();}
+QString Facility::getName(){return name;}
+QString Facility::getArea(){return area;}
+int Facility::getId(){return id;}
+int Facility::getX(){return x;}
+int Facility::getY(){return y;}
+int Facility::getTotalAC(){return NumberBedTotalAcute;}
+int Facility::getTotalCCC(){return NumberBedTotalComplex;}
+int Facility::getTotalLTC(){return NumberBedTotalLTC;}
 
-
-void Facility::addWaitingList(Patient * aPatient)
-{
-    listWL.append(aPatient);
-}
-
-int Facility::getSizeWL()
-{
-    return listWL.size();
-}
-
-QString Facility::getName()
-{
-    return name;
-}
-
-QString Facility::getArea()
-{
-    return area;
-}
-
-int Facility::getId()
-{
-    return id;
-}
-
-int Facility::getX()
-{
-    return x;
-}
-
-int Facility::getY()
-{
-    return y;
-}
-
-
-void Facility::setName(QString aName)
-{
-    name = aName;
-}
-
+void Facility::setName(QString aName){name = aName;}
+void Facility::addWaitingList(Patient * aPatient){listWL.append(aPatient);}

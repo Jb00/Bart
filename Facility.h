@@ -5,6 +5,8 @@
 #include "Patient.h"
 #include "Bed.h"
 #include <iostream>
+#include <QColor>
+#include <QDebug>
 
 class Facility
 {
@@ -24,6 +26,7 @@ private :
         int NumberBedAvailableLTC;
         int x;
         int y;
+
         QList<Bed*> listBedComplex;
         QList<Bed*> listBedAcute;
         QList<Bed*> listBedLTC;
@@ -35,14 +38,16 @@ private :
 
 
 public:
+    //Facility(int,QString,int,int,int,int,int, QColor, int, int);
     Facility(int,QString,int,int,int,int,int);
-  //  Facility(QString,QString); // Might need to pass NumberBedtotal, depends of the UI. I'll assume no.
+        //  Facility(QString,QString); // Might need to pass NumberBedtotal, depends of the UI. I'll assume no.
     ~Facility();
 
     //Acute
     void addBedAcute();
     bool removeBedAcute(int);
     int getSizeAcute();
+    int getTotalAC();
     bool isEmptyAcute();
     bool NUsedBedAcute();   //Non Used Bed for Acute care. True = success false = fail
     void addPatientAcute(Patient*);
@@ -51,6 +56,7 @@ public:
     void addBedComplex();
     bool removeBedComplex(int);
     int getSizeComplex();
+    int getTotalCCC();
     bool isEmptyComplex();
     void addPatientComplex(Patient*);
     bool NUsedBedComplex(); //Non Used Bed for Complex Care. True = success false = fail
@@ -59,6 +65,7 @@ public:
     void addBedLTC();
     bool removeBedLTC(int);
     int getSizePatientLTC();
+    int getTotalLTC();
     bool isEmptyLTC();
     void addPatientLTC(Patient*);
     bool removePatientWL(Patient*);
@@ -73,12 +80,7 @@ public:
     int getX();
     int getY();
 
-
-
     void setName(QString);
-
-
-
 
 };
 

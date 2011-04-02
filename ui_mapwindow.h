@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mapwindow.ui'
 **
-** Created: Wed Mar 30 21:07:31 2011
+** Created: Sat Apr 2 16:14:28 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

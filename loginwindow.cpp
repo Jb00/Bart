@@ -79,7 +79,11 @@ void LoginWindow::keyPressEvent(QKeyEvent *event){
         qApp->quit();
         break;
 
+    case Qt::Key_Return:
+        on_loginBtn_clicked();
+        break;
     }
+
 }
 
 

@@ -9,6 +9,7 @@ FacilityWindow::FacilityWindow(QWidget *parent) :
 
     connect(ui->cancelBtn, SIGNAL(pressed()), this, SLOT(cancelBtn_clicked()));
     connect(ui->okBtn, SIGNAL(pressed()), this, SLOT(okBtn_clicked()));
+    connect(ui->waitingBtn, SIGNAL(pressed()), this, SLOT(waitingBtn_clicked()));
 
     connect(ui->acuteRaio, SIGNAL(toggled(bool)), this, SLOT(typeRadio_selected()));
     connect(ui->complexRadio, SIGNAL(toggled(bool)), this, SLOT(typeRadio_selected()));
@@ -57,10 +58,17 @@ void FacilityWindow::okBtn_clicked(){
 
 void FacilityWindow::cancelBtn_clicked(){
 
+    ui->nameLbl->clear();
+    ui->idLbl->clear();
+    ui->xLbl->clear();
+    ui->yLbl->clear();
 
+    this->close();
 }
 
 void FacilityWindow::waitingBtn_clicked(){
+
+    FacilityWinCtrl::getInstance()->goToWaiting();
 
 }
 

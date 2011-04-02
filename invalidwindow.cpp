@@ -41,3 +41,5 @@ void InvalidWindow::keyPressEvent(QKeyEvent *event){
 
     }
 }
+
+void InvalidWindow::setLabelText(QString str){ui->label->setText(str);}

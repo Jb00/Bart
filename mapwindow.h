@@ -9,13 +9,11 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPainter>
-#include <QGraphicsView>
-#include <QToolTip>
 #include <QPixmap>
 #include <QDebug>
+#include <QRgb>
 
 #include "mapwinctrl.h"
-#include <QRgb>
 
 namespace Ui {
     class MapWindow;
@@ -33,20 +31,19 @@ public:
     virtual void paintEvent(QPaintEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
 
-    void determineArea(QColor);
+    void determineFacColor();
+    void determineFacSize();
 
 private:
     Ui::MapWindow *ui;
-    MapWinCtrl* mapCtrl;
+    //MapWinCtrl* mapCtrl;
 
     QString fileName;
     QSvgRenderer* renderer;
 
-    QLinkedList<QPoint> *facilityPnts;
-
+    QList<int> *facSizeList;
     QList<QColor> *colorList;
     int area;
-
 
 private slots:
 

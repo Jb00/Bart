@@ -7,3 +7,4 @@ genUI::~genUI(){}
 void genUI::keyPressEvent(QKeyEvent* event){}
 void genUI::setScheme(){};
 
+

@@ -21,6 +21,8 @@ public:
     void keyPressEvent(QKeyEvent * event);
     void setScheme();
 
+    void setLabelText(QString);
+
 private:
     Ui::InvalidWindow *ui;
 

@@ -25,11 +25,11 @@ public:
 
     void addCoord(int, int);
 
-
+    void determineArea(QColor);
+    //void determineIcon();
 
 private:
     Ui::AddFacility *ui;
-
 
     QString name;
     int xCoord;
@@ -38,8 +38,10 @@ private:
     int AC;
     int CCC;
     int LTC;
+    int area;
 
-
+    QList<QColor> *colorList;
+    //FacIconInfo* iconInfo;
 
 private slots:
 
